@@ -3222,7 +3222,7 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
       </h3>
 
       <button
-        ttype="button"
+        type="button"
         onclick="bukaRiwayatKelasGuru()"
         style="
           margin-left: auto;
@@ -4597,10 +4597,10 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
     
   <!-- WADAH TOMBOL BATAL & SIMPAN -->
     <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button type="button" onclick="tutupInputGuru()" style="...">
+      <button type="button" onclick="tutupInputGuru()" style="flex: 1; padding: 12px; background: #777; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
         Batal
       </button>
-      <button type="submit" id="btnSimpanGuru" style="...">
+      <button type="submit" id="btnSimpanGuru" style="flex: 1; padding: 12px; background: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
         Simpan
       </button>
     </div>
@@ -4614,8 +4614,6 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
 <!-- Latar Gelap Overlay -->
 <div id="overlayGuru" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;" onclick="tutupInputGuru()"></div>
 
-<!-- Latar Gelap Saat Modal Muncul -->
-<div id="overlayGuru" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="tutupInputGuru()"></div>
 
 <!-- MODAL MONITORING INFAQ -->
 <div id="modalMonitoringInfaq" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10002; width:92%; max-width:650px; max-height:85vh; overflow-y:auto; background:#fff; padding:22px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
@@ -10474,54 +10472,5 @@ function tutupRiwayatInfaq() {
 
 
 </script>
-<!-- MODAL INPUT MONITORING GURU -->
-<div id="modalInputGuru" class="modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; background:white; padding:20px; border-radius:12px; width:90%; max-width:500px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3);">
-  
-  <h3 id="judulModalGuru" style="margin-top:0;">📖 Input Membaca Al-Qur'an</h3>
-  
-  <!-- PASTIKAN TAG FORM MEMPUNYAI onsubmit="prosesSimpanGuru(event)" -->
-  <form id="formMonitoringGuru" onsubmit="prosesSimpanGuru(event)">
-    
-    <!-- Input Tersembunyi (Hidden) -->
-    <input type="hidden" id="jenisInputGuru">
-    <input type="hidden" id="catatanInputGuru" value="Di Sekolah">
-
-    <!-- Select Siswa -->
-    <div style="margin-bottom: 15px;">
-      <label style="display:block; font-weight:bold; margin-bottom:5px;">Pilih Siswa:</label>
-      <select id="selectSiswaGuru" required style="width: 100%; padding: 10px; border-radius:6px; border:1px solid #ccc;">
-        <option value="">-- Pilih Siswa --</option>
-      </select>
-    </div>
-
-    <!-- Tanggal Input -->
-    <div style="margin-bottom: 15px;">
-      <label style="display:block; font-weight:bold; margin-bottom:5px;">Tanggal:</label>
-      <input type="date" id="tglInputGuru" required style="width: 100%; padding: 10px; border-radius:6px; border:1px solid #ccc; background:#f0f0f0;">
-    </div>
-
-    <!-- Container Form Dinamis (Isi Surah & Ayat) -->
-    <div id="formDinamisGuru"></div>
-
-    <!-- WADAH TOMBOL BATAL & SIMPAN -->
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <!-- Tombol BATAL memanggil tutupInputGuru() -->
-      <button type="button" onclick="tutupInputGuru()" style="flex: 1; padding: 12px; background-color: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-        Batal
-      </button>
-      
-      <!-- Tombol SIMPAN bertipe submit -->
-      <button type="submit" id="btnSimpanGuru" style="flex: 1; padding: 12px; background-color: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
-        Simpan
-      </button>
-    </div>
-
-  </form>
-</div>
-
-<!-- OVERLAY BACKDROP -->
-<div id="overlayGuru" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="tutupInputGuru()"></div>
-
-
 </body>
 </html>
