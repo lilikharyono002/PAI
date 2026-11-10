@@ -2967,87 +2967,6 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
 #tabelRiwayatGuru th:nth-child(6), #tabelRiwayatGuru td:nth-child(6) { width: 18%; text-align: center; }
 
 </style>
-
-  <link rel="icon" href="https://drive.google.com/thumbnail?id=1d9AlAABndWNgl_wzYEaONSXIbFcSUaKy&sz=w64">
-
-  <!-- =====================================================
-       PENGGANTI google.script.run UNTUK GITHUB PAGES
-       Isi API_URL dengan URL Web App (berakhiran /exec)
-       ===================================================== -->
-  <script>
-  (function () {
-    var API_URL = 'https://script.google.com/macros/s/AKfycbyfqRmlFpzHPIdCw-lohJMAwR8Osk6KxXKmdIe8rwgqLeUNi0whtTAab6qoxmwkSJj1/exec';
-    var KUNCI_TOKEN = 'alislam_token';
-    var KUNCI_SESI_LOGIN = 'alislam_sesi_login';
-
-    function ambilToken() {
-      try { return localStorage.getItem(KUNCI_TOKEN) || ''; } catch (e) { return ''; }
-    }
-    function simpanToken(t) {
-      try { localStorage.setItem(KUNCI_TOKEN, t); } catch (e) {}
-    }
-    function hapusToken() {
-      try {
-        localStorage.removeItem(KUNCI_TOKEN);
-        localStorage.removeItem(KUNCI_SESI_LOGIN);
-      } catch (e) {}
-    }
-
-    function panggilApi(fn, args, ok, gagal) {
-      fetch(API_URL, {
-        method: 'POST',
-        // text/plain = "simple request": tidak memicu preflight CORS yang tidak didukung Apps Script
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ fn: fn, args: args, token: ambilToken() })
-      })
-      .then(function (r) {
-        if (!r.ok) throw new Error('Server mengembalikan status ' + r.status);
-        return r.json();
-      })
-      .then(function (res) {
-        if (res && res.ok) {
-          if (fn === 'loginUser' && res.result && res.result.token) {
-            simpanToken(res.result.token);
-            delete res.result.token; // token tidak perlu ikut tersimpan di sesi tampilan
-          }
-          if (typeof ok === 'function') ok(res.result);
-          return;
-        }
-
-        if (res && res.code === 'AUTH') {
-          hapusToken();
-          alert('Sesi Anda sudah berakhir. Silakan login kembali.');
-          location.reload();
-          return;
-        }
-
-        throw new Error((res && res.error) || 'Terjadi kesalahan pada server.');
-      })
-      .catch(function (err) {
-        if (typeof gagal === 'function') gagal(err);
-        else console.error('Panggilan API gagal:', fn, err);
-      });
-    }
-
-    function buatRunner(ok, gagal) {
-      return new Proxy({}, {
-        get: function (_, nama) {
-          if (typeof nama !== 'string') return undefined;
-          if (nama === 'withSuccessHandler') return function (f) { return buatRunner(f, gagal); };
-          if (nama === 'withFailureHandler') return function (f) { return buatRunner(ok, f); };
-          if (nama === 'withUserObject') return function () { return buatRunner(ok, gagal); };
-          return function () {
-            panggilApi(nama, Array.prototype.slice.call(arguments), ok, gagal);
-          };
-        }
-      });
-    }
-
-    window.google = window.google || {};
-    window.google.script = { run: buatRunner(null, null) };
-    window.hapusTokenAlIslam = hapusToken;
-  })();
-  </script>
 </head>
 <body>
 
@@ -3222,7 +3141,7 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
       </h3>
 
       <button
-        type="button"
+        ttype="button"
         onclick="bukaRiwayatKelasGuru()"
         style="
           margin-left: auto;
@@ -4028,6 +3947,7 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
 
       </div>
 
+
       <button
         type="button"
         class="tombol-kembali"
@@ -4126,11 +4046,14 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
 
       </div>
 
+
       <button
         type="button"
         class="tombol-kembali"
         onclick="kembaliDashboard()">
+
         ← Kembali
+
       </button>
 
     </div>
@@ -4597,10 +4520,10 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
     
   <!-- WADAH TOMBOL BATAL & SIMPAN -->
     <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button type="button" onclick="tutupInputGuru()" style="flex: 1; padding: 12px; background: #777; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      <button type="button" onclick="tutupInputGuru()" style="...">
         Batal
       </button>
-      <button type="submit" id="btnSimpanGuru" style="flex: 1; padding: 12px; background: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+      <button type="submit" id="btnSimpanGuru" style="...">
         Simpan
       </button>
     </div>
@@ -4614,6 +4537,8 @@ BARUUUUUUUUUUUUUUUUUUUUUUUU
 <!-- Latar Gelap Overlay -->
 <div id="overlayGuru" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999;" onclick="tutupInputGuru()"></div>
 
+<!-- Latar Gelap Saat Modal Muncul -->
+<div id="overlayGuru" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;" onclick="tutupInputGuru()"></div>
 
 <!-- MODAL MONITORING INFAQ -->
 <div id="modalMonitoringInfaq" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:10002; width:92%; max-width:650px; max-height:85vh; overflow-y:auto; background:#fff; padding:22px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.3);">
@@ -4782,7 +4707,6 @@ function ambilSesi() {
 function hapusSesi() {
   try {
     localStorage.removeItem(KUNCI_SESI);
-    if (window.hapusTokenAlIslam) window.hapusTokenAlIslam();
   } catch (e) {}
 }
 
@@ -10472,5 +10396,54 @@ function tutupRiwayatInfaq() {
 
 
 </script>
+<!-- MODAL INPUT MONITORING GURU -->
+<div id="modalInputGuru" class="modal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:1000; background:white; padding:20px; border-radius:12px; width:90%; max-width:500px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3);">
+  
+  <h3 id="judulModalGuru" style="margin-top:0;">📖 Input Membaca Al-Qur'an</h3>
+  
+  <!-- PASTIKAN TAG FORM MEMPUNYAI onsubmit="prosesSimpanGuru(event)" -->
+  <form id="formMonitoringGuru" onsubmit="prosesSimpanGuru(event)">
+    
+    <!-- Input Tersembunyi (Hidden) -->
+    <input type="hidden" id="jenisInputGuru">
+    <input type="hidden" id="catatanInputGuru" value="Di Sekolah">
+
+    <!-- Select Siswa -->
+    <div style="margin-bottom: 15px;">
+      <label style="display:block; font-weight:bold; margin-bottom:5px;">Pilih Siswa:</label>
+      <select id="selectSiswaGuru" required style="width: 100%; padding: 10px; border-radius:6px; border:1px solid #ccc;">
+        <option value="">-- Pilih Siswa --</option>
+      </select>
+    </div>
+
+    <!-- Tanggal Input -->
+    <div style="margin-bottom: 15px;">
+      <label style="display:block; font-weight:bold; margin-bottom:5px;">Tanggal:</label>
+      <input type="date" id="tglInputGuru" required style="width: 100%; padding: 10px; border-radius:6px; border:1px solid #ccc; background:#f0f0f0;">
+    </div>
+
+    <!-- Container Form Dinamis (Isi Surah & Ayat) -->
+    <div id="formDinamisGuru"></div>
+
+    <!-- WADAH TOMBOL BATAL & SIMPAN -->
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <!-- Tombol BATAL memanggil tutupInputGuru() -->
+      <button type="button" onclick="tutupInputGuru()" style="flex: 1; padding: 12px; background-color: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+        Batal
+      </button>
+      
+      <!-- Tombol SIMPAN bertipe submit -->
+      <button type="submit" id="btnSimpanGuru" style="flex: 1; padding: 12px; background-color: #388e3c; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+        Simpan
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<!-- OVERLAY BACKDROP -->
+<div id="overlayGuru" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="tutupInputGuru()"></div>
+
+
 </body>
 </html>
